@@ -1,21 +1,26 @@
 import express from 'express';
 import dotenv from 'dotenv';
-
+import cors from 'cors';
 import { connectDB } from './config/db.js';
 import router from './router/routes.js';
 
 const app = express();
 
 dotenv.config();
+app.use(cors());
 app.use(express.json());
+
+app.use(express.urlencoded({extended:true}))
 
 app.use('/api/v1/products',router);
 
 
 
-app.get('/',(req,res)=>{
-    res.send('hola mundo')
-})
+
+// app.get('/',(req,res)=>{
+//     res.send('hola mundo')
+// })
+
 const PORT = process.env.PORT
 const MONGO_URI = process.env.MONGO_URI
 
