@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faCirclePlus, faPen, faTrash} from '@fortawesome/free-solid-svg-icons'
 import { Product } from 'src/app/models/product.interface';
+import { AlertifyService } from 'src/app/services/alertify.service';
 import { CrudService } from 'src/app/services/crud.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class ShowComponent implements OnInit{
 
   products: Product[]=[]
 
-  constructor(private crudService: CrudService){
+  constructor(private crudService: CrudService, private alertify:AlertifyService){
 
   }
 
@@ -27,8 +28,14 @@ export class ShowComponent implements OnInit{
       })
   }
   delete(id:any,index:any){
-    this.crudService.deleteProduct(id).subscribe((res)=>{
-      this.products.splice(index,1)
+    this.alertify.confirm({
+      message:"Estas seguro?",
+      callback_delete:()=>{
+        this.crudService.deleteProduct(id).subscribe((res)=>{
+          this.products.splice(index,1)
+        })
+      }
     })
+  
   }
 }

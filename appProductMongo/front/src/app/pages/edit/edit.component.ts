@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/models/product.interface';
+import { AlertifyService } from 'src/app/services/alertify.service';
 import { CrudService } from 'src/app/services/crud.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class EditComponent implements OnInit {
   model:Product
 
   constructor(private crudService:CrudService, private router: Router, 
-    private activatedRouter: ActivatedRoute){
+    private activatedRouter: ActivatedRoute, private alertify:AlertifyService){
 
   }
 
@@ -32,10 +33,11 @@ export class EditComponent implements OnInit {
   onSubmit(product:Product){
     this.crudService.updateProduct(this.id,product).subscribe({
       next:()=>{
+        this.alertify.success('Producto actualizado bien')
         this.router.navigateByUrl('/')
       },
       error:(error)=>{
-        console.log(error);
+        this.alertify.error(error)
       }
     })
   }

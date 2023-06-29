@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Product } from 'src/app/models/product.interface';
+import { AlertifyService } from 'src/app/services/alertify.service';
 import { CrudService } from 'src/app/services/crud.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { CrudService } from 'src/app/services/crud.service';
 })
 export class CreateComponent {
 
-  constructor(private router: Router, private crudService: CrudService){
+  constructor(private router: Router, private crudService: CrudService,private alertify:AlertifyService){
 
   }
 
@@ -18,10 +19,11 @@ export class CreateComponent {
     // console.log(product);
     this.crudService.createProducts(product).subscribe({
       next:()=>{
+        this.alertify.success('Producto creado bien')
         this.router.navigateByUrl("/")
       },
       error: (error)=>{
-        console.log(error);
+        this.alertify.error(error)
       }
     })
   }
