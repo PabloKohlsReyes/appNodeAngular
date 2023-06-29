@@ -27,6 +27,8 @@ export class ShowComponent implements OnInit{
       })
   }
   delete(id:any,index:any){
-    console.log(id);
+    this.crudService.deleteProduct(id).subscribe((res)=>{
+      this.products.splice(index,1)
+    })
   }
 }
